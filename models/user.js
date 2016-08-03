@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
+var userSchema = new Schema({
   firstName:{
     type: String,
     required: true,
@@ -18,10 +18,10 @@ var UserSchema = new Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
     unique: true
   }
 });
 
-var User = mongoose.model('User', commentSchema);
+var User = mongoose.model('User', userSchema);
 module.exports = User;
