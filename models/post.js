@@ -15,12 +15,13 @@ var postSchema = new Schema({
     type: Date,
     require: true
   },
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    require: true
-  },
-  update: {
+  author: String,
+  // author: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   require: true
+  // },
+  updated: {
     type: Date,
     require: true
   }
