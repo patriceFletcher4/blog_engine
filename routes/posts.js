@@ -59,14 +59,14 @@ function createPost(req, res, next){
   });
 }
 function deletePost(req, res, next){
-  Post.Remove({_id: req.params.id}, req.body, function(err, deletePost){
+  Post.findOneAndRemove({_id: req.params.id}, req.body, function(err, deletePost){
     if(err){
       res.status(500).json({
         msg:err
       });
     } else {
       res.status(201).json({
-        msg: deletePost
+        deletePost: deletePost
       });
     }
   });
