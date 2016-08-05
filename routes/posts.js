@@ -4,7 +4,7 @@ var router = express.Router();
 var Post = require('../models/post.js');
 
 router.get('/posts', getAllPosts);
-router.get('/posts/:id', getPostsForthePostId);
+router.get('/posts/:id', getPostsForPostId);
 router.post('/posts', createPost);
 router.delete('/posts/:id', deletePost);
 router.put('/posts/:id', updatePost);
@@ -25,9 +25,18 @@ Post.find({}, function(err, foundPosts){
   }
 });
 }
-
-function getPostsForthePostId(req, res, next){
-
+function getPostsForPostId(req, res, next){
+  Post.find({_id}, function(err, foundUniquePosts){
+    if(err){
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.status(200).json({
+        posts: foundUniquePosts
+      });
+    }
+  });
 }
 function createPost(req, res, next){
   var post = new Post({
@@ -50,14 +59,14 @@ function createPost(req, res, next){
   });
 }
 function deletePost(req, res, next){
-  Post.findByIdAndRemove(_id){
+  Post.Remove({_id: req.params.id}, req.body, function(err, deletePost){
     if(err){
       res.status(500).json({
         msg:err
       });
     } else {
       res.status(201).json({
-        deletePost: deletePost
+        msg: deletePost
       });
     }
   });

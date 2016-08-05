@@ -14,14 +14,48 @@ function getCommentsForAPost(req, res, next){
   next();
 }
 function createComment(req, res, next){
-  console.log('creating a comment');
-  next();
+  var comment = new Comment({
+    title: req.body.title,
+    author: req.body.author,
+    body: req.body.body,
+    created: new Date(),
+    updated: new Date()
+  });
+  comment.save(function(err, newComment){
+    if(err){
+      res.status(500).json({
+        msg:err
+      });
+    } else {
+      res.status(201).json({
+        Comment: newComment
+      });
+    }
+  });
 }
 function deleteComment(req, res, next){
-    console.log('deleting a comment');
-    next();
+  Comment.Remove({_id: req.params.id}, req.body, function(err, deleteComment){
+    if(err){
+      res.status(500).json({
+        msg:err
+      });
+    } else {
+      res.status(201).json({
+        msg: deleteComment
+      });
+    }
+  });
 }
 function updateComment(req, res, next){
-    console.log('updating a comment')
-    next();
-}    
+  Comment.findOneAndUpdate({_id: req.params.id}, req.body, function(err, oldComment){
+    if(err){
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.status(200).json({
+        oldComment: oldComment
+      });
+    }
+  });
+}
