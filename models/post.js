@@ -26,6 +26,15 @@ var postSchema = new Schema({
     require: true
   }
 });
+postSchema.pre('findOneAndUpdate', function(){
+  this.update({},
+    {
+      $set:
+      {
+        updated: new Date()
+      }
+    });
+});
 
 var Post = mongoose.model('post', postSchema);
 module.exports = Post;
