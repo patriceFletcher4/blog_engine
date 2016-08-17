@@ -5,7 +5,7 @@ var User = require('./models/user.js');
 
 module.exports = {
   signup: signup,
-  signin: signin
+  login: login
 };
 
 function signup(req, res){
@@ -18,12 +18,14 @@ function signup(req, res){
         msg: 'error'
       })
     }
+    var token = user.generateJwt();
     return res.status(200).json({
+      token: token,
       msg: 'success'
     })
   })
 }
-function signin(req, res){
+function login(req, res){
 passport.authenticate('local', function(err, user, info){
   if(err){
     return res.status(500).json({
@@ -31,11 +33,14 @@ passport.authenticate('local', function(err, user, info){
     })
   }
   if(user){
+    var token = user.generateJwt();
     return res.status(200).json({
-      msg: 'authentication succeeded'
+      msg: 'authentication succeeded',
+      token: token
     })
   } else {
     return res.status(401).json(info);
   }
+
 });
 }
