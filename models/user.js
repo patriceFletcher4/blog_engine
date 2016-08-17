@@ -22,8 +22,7 @@ var userSchema = new Schema({
   },
   hash: {
     type: String,
-    required: true,
-    uniqie: false
+    required: false
   },
   salt: {
     type: String,
