@@ -1,20 +1,22 @@
 
-
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user.js');
+var auth = require('../authentication.js');
 
 
 router.get('/users', getAllUsers);
 router.get('/users/:userId', getOneUser);
-router.post('/users', createUser);
+router.post('/signup', auth.signup);
+//router.post('/users', createUser);
+router.post('/login', auth.login);
 router.delete('/users/:userId', deleteUser);
 router.put('/users/:userId', updateUser);
 
 module.exports = router;
 
 function getAllUsers(req, res, next){
-  var find({user: req.params.userId}, function(err, users){
+  User.find({}, function(err, users){
     if(err) {
       res.status(500).json({
         msg: err
@@ -33,7 +35,7 @@ function getAllUsers(req, res, next){
   });
 }
 function getOneUser(req, res, next){
-  var find({_userId, req.params.userId}, function(err, foundOneUser){
+  user.find({_Id: req.params.userId}, function(err, foundOneUser){
     if(err){
       res.status(500).json({
         msg: err

@@ -26,6 +26,7 @@ function signup(req, res){
   })
 }
 function login(req, res){
+  console.log('before auth');
 passport.authenticate('local', function(err, user, info){
   if(err){
     return res.status(500).json({
@@ -42,5 +43,6 @@ passport.authenticate('local', function(err, user, info){
     return res.status(401).json(info);
   }
 
-});
+})(req, res);
+console.log('after auth');
 }
