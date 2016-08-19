@@ -37,7 +37,7 @@ userSchema.methods.setPassword = function(password){
                     .toString('hex');
 }
 
-userSchema.methods.vaildPassword = function(password){
+userSchema.methods.validPassword = function(password){
   var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512')
                   .toString('hex');
   return this.hash === hash;
@@ -52,7 +52,7 @@ userSchema.methods.generateJwt = function(){
     firstName: this.firstName,
     lastName: this.lastName,
     exp: parseInt(expiration.getDate() / 1000)
-  }, 'MY_SECRET_PHRASE');
+  }, secret);
 }
 
 var User = mongoose.model('User', userSchema);
